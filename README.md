@@ -3,7 +3,7 @@
 Intelligent Waste Sorting Assistant (IWSA)
 A simple, interactive Python program that helps users identify the correct disposal category for waste items, promoting proper waste management and environmental awareness.
 
-3. Overview of the Project
+2. Overview of the Project
    
 Improper disposal of waste is a major contributor to pollution and environmental hazards. Many people are unaware of how to correctly sort household and industrial waste into categories like recyclable, organic, hazardous, or general waste.
 The Intelligent Waste Sorting Assistant is a command-line program that:
