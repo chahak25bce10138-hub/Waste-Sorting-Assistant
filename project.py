@@ -1,76 +1,94 @@
-# ----------------------------------------------
-# Intelligent Waste Sorting Assistant (IWSA)
-# ----------------------------------------------
+# -----------------------------------------------------------
+# 🌱 Waste Sorting Helper
+# A simple, friendly assistant to help you figure out
+# where to throw your waste items.
+# -----------------------------------------------------------
 
-def detect_category(item):
-    item = item.lower()
+def figure_out_category(item_name):
+    """
+    Checks the item name and guesses which waste category it belongs to.
+    """
+    item_name = item_name.lower()
 
-    recyclable_keywords = ["plastic", "glass", "bottle", "paper", "cardboard", "metal", "can"]
-    organic_keywords = ["food", "banana", "apple", "vegetable", "leaf", "peel", "leftover"]
-    hazardous_keywords = ["battery", "chemical", "acid", "paint", "medical", "syringe"]
-    general_keywords = ["tissue", "wrapper", "dust", "cloth"]
+    recyclable_words = ["plastic", "glass", "bottle", "paper", "cardboard", "metal", "can"]
+    organic_words = ["food", "banana", "apple", "vegetable", "leaf", "peel", "leftover"]
+    hazardous_words = ["battery", "chemical", "acid", "paint", "medical", "syringe"]
+    general_words = ["tissue", "wrapper", "dust", "cloth"]
 
-    if any(word in item for word in recyclable_keywords):
+    if any(word in item_name for word in recyclable_words):
         return "Recyclable"
-    elif any(word in item for word in organic_keywords):
+    elif any(word in item_name for word in organic_words):
         return "Organic"
-    elif any(word in item for word in hazardous_keywords):
+    elif any(word in item_name for word in hazardous_words):
         return "Hazardous"
-    elif any(word in item for word in general_keywords):
+    elif any(word in item_name for word in general_words):
         return "General Waste"
     else:
         return "Unknown"
 
 
-def get_instructions(category):
-    instructions = {
-        "Recyclable": "Place in the recycling bin. Do not crush bottles.",
-        "Organic": "Place in the compost or organic waste bin.",
-        "Hazardous": "Take to a hazardous waste center. Do NOT throw in regular bins.",
-        "General Waste": "Dispose of in the general waste bin.",
-        "Unknown": "Category not recognized. Search manually for proper disposal."
+def how_to_dispose(category_name):
+    """
+    Gives a simple instruction on how to deal with the waste.
+    """
+    tips = {
+        "Recyclable": "Great! Put this in your recycling bin. Make sure it's clean if you can.",
+        "Organic": "Yum! Compost this or put it in the organic waste bin.",
+        "Hazardous": "Be careful! Take this to a hazardous waste center. Don't throw it in normal trash.",
+        "General Waste": "Just toss it in the regular trash bin.",
+        "Unknown": "Hmm… not sure about this one. Maybe check online for proper disposal."
     }
-    return instructions[category]
+    return tips[category_name]
 
 
-def display_result(item, category, instruction):
-    print("\n---------------------------------")
-    print(f"Item: {item}")
-    print(f"Category: {category}")
-    print(f"Disposal Method: {instruction}")
-    print("---------------------------------\n")
+def show_item_result(item_name, category_name, instructions):
+    """
+    Prints out the item info in a friendly, easy-to-read format.
+    """
+    print("\n---------------------------------------------")
+    print(f"Item: {item_name}")
+    print(f"Looks like it's: {category_name}")
+    print(f"What to do: {instructions}")
+    print("---------------------------------------------\n")
 
 
-def show_summary(history):
-    print("\n========== WASTE SORTING SUMMARY ==========")
-    if not history:
-        print("No items were sorted.")
+def show_overall_summary(sorted_items):
+    """
+    At the end, give the user a summary of everything they sorted.
+    """
+    print("\n===== Here's a summary of your session =====")
+    if not sorted_items:
+        print("You didn't sort anything this time.")
     else:
-        for h in history:
-            print(f"- {h['item']} → {h['category']}")
-    print("===========================================\n")
+        for entry in sorted_items:
+            print(f"- {entry['item']} went into {entry['category']}")
+    print("============================================\n")
 
 
-def main_menu():
+def main():
+    """
+    Runs the main interactive loop.
+    """
     history = []
 
-    print("===== Intelligent Waste Sorting Assistant =====\n")
+    print("🌿 Hey there! Welcome to your friendly Waste Sorting Helper!")
+    print("I'll help you figure out where your items should go.\n")
 
     while True:
-        item = input("Enter waste item (or type 'exit'): ")
+        user_input = input("Type the name of a waste item (or 'exit' to quit): ")
 
-        if item.lower() == "exit":
+        if user_input.lower() == "exit":
             break
 
-        category = detect_category(item)
-        instruction = get_instructions(category)
-        display_result(item, category, instruction)
+        category = figure_out_category(user_input)
+        instructions = how_to_dispose(category)
+        show_item_result(user_input, category, instructions)
 
-        history.append({"item": item, "category": category})
+        history.append({"item": user_input, "category": category})
 
-    show_summary(history)
-    print("Thank you for helping keep the environment clean!\n")
+    show_overall_summary(history)
+    print("Thanks for sorting responsibly! Every little bit helps 🌍💚")
 
 
-# Run the program
-main_menu()
+# Start the assistant
+main()
